@@ -1,0 +1,29 @@
+{
+  "name": "app-backend",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "packageManager": "yarn@3.1.0",
+  "scripts": {
+    "start": "NODE_ENV=production node dist",
+    "clean": "rm -rf dist",
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src",
+    "generate": "yarn generate:prisma && yarn generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "build": "yarn clean && yarn generate && tsc"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/node": "^16.11.7",
+    "prisma": "^3.5.0",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.5.0",
+    "apollo-server": "^3.5.0",
+    "graphql": "^15.7.2",
+    "nexus": "^1.1.0"
+  }
+}
