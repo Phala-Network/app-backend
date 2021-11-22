@@ -50,7 +50,7 @@ model schema_migrations {
 
 model stake_pool_activities {
   id                   Int                        @id @default(autoincrement())
-  event_id             Int
+  event_id             Int?
   stake_pool_id        Int
   type                 String
   block_number         BigInt
@@ -59,6 +59,7 @@ model stake_pool_activities {
   commission           Decimal                    @default(0.0)
   owner_reward         Decimal                    @default(0.0)
   cap                  Decimal                    @default(0.0)
+  reward_acc           Decimal                    @default(0.0)
   total_shares         Decimal                    @default(0.0)
   total_stake          Decimal                    @default(0.0)
   free_stake           Decimal                    @default(0.0)
@@ -70,7 +71,7 @@ model stake_pool_activities {
   mining_workers_count Int                        @default(0)
   created_at           Unsupported("datetime(6)")
   updated_at           Unsupported("datetime(6)")
-  events               events                     @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  events               events?                    @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stake_pools          stake_pools                @relation(fields: [stake_pool_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([stake_pool_id], map: "index_stake_pool_activities_on_stake_pool_id")
@@ -79,7 +80,7 @@ model stake_pool_activities {
 
 model stake_pool_staker_activities {
   id                   Int                        @id @default(autoincrement())
-  event_id             Int
+  event_id             Int?
   stake_pool_staker_id Int
   type                 String
   block_number         BigInt
@@ -91,7 +92,7 @@ model stake_pool_staker_activities {
   reward_debt          Decimal                    @default(0.0)
   created_at           Unsupported("datetime(6)")
   updated_at           Unsupported("datetime(6)")
-  events               events                     @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  events               events?                    @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stake_pool_stakers   stake_pool_stakers         @relation(fields: [stake_pool_staker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([stake_pool_staker_id], map: "index_stake_pool_staker_activities_on_stake_pool_staker_id")
@@ -128,6 +129,7 @@ model stake_pools {
   commission                Decimal                    @default(0.0)
   owner_reward              Decimal                    @default(0.0)
   cap                       Decimal                    @default(0.0)
+  reward_acc                Decimal                    @default(0.0)
   total_shares              Decimal                    @default(0.0)
   total_stake               Decimal                    @default(0.0)
   free_stake                Decimal                    @default(0.0)
@@ -164,7 +166,7 @@ model states {
 
 model worker_activities {
   id                Int                        @id @default(autoincrement())
-  event_id          Int
+  event_id          Int?
   worker_id         Int
   type              String
   block_number      BigInt
@@ -183,7 +185,7 @@ model worker_activities {
   p_instant         Decimal                    @default(0.0)
   created_at        Unsupported("datetime(6)")
   updated_at        Unsupported("datetime(6)")
-  events            events                     @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  events            events?                    @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   accounts          accounts?                  @relation(fields: [operator_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stake_pools       stake_pools                @relation(fields: [stake_pool_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   workers           workers                    @relation(fields: [worker_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
