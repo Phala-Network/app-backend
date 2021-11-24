@@ -5,6 +5,7 @@ export const StakePool = objectType({
   definition(t) {
     t.string('pid')
     t.int('stakers_count')
+    t.bigInt('last_updated_block_number')
     t.decimal('commission')
     t.decimal('owner_reward')
     t.decimal('cap')
