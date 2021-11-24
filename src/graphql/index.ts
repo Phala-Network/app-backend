@@ -1,5 +1,5 @@
 export * from './common'
-export * from './scalars'
+export * from './scalar'
 export * from './query'
 export * from './account'
 export * from './stakePool'

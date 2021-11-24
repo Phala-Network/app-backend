@@ -1,10 +1,5 @@
 import {makeSchema} from 'nexus'
 import * as types from './graphql'
-// import {Account} from './Account'
-// import {BigIntScalar} from './BigIntDecimalScalar'
-// import {DecimalScalar} from './DecimalScalar'
-// import {Query} from './Query'
-// import {StakePool} from './StakePool'
 
 export const schema = makeSchema({
   nonNullDefaults: {

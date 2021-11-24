@@ -1,5 +1,4 @@
-import {queryType, intArg, arg} from 'nexus'
-import {omitBy, isNull} from 'lodash'
+import {queryType, intArg, arg, stringArg} from 'nexus'
 
 export const Query = queryType({
   definition(t) {
@@ -9,14 +8,15 @@ export const Query = queryType({
         take: intArg(),
         skip: intArg(),
         orderBy: arg({type: 'StakePoolOrderByInput'}),
+        where: arg({type: 'StakePoolWhereInput'}),
       },
       resolve: (parent, args, context) => {
-        console.log(args.orderBy)
         return context.prisma.stake_pools.findMany({
           take: args.take || undefined,
           skip: args.skip || undefined,
           // FIXME: null type should not be generated
           orderBy: (args.orderBy as any) || undefined,
+          where: (args.where as any) || undefined,
         })
       },
     })
