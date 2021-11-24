@@ -2,7 +2,6 @@
 dist/
 src/generated/
 *.db
-*.sqlite3
 
 # Logs
 logs

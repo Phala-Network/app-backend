@@ -9,7 +9,7 @@ export const schema = makeSchema({
   types,
   outputs: {
     schema: __dirname + '/generated/schema.graphql',
-    typegen: __dirname + '/generated/typings.ts',
+    typegen: __dirname + '/generated/typings.d.ts',
   },
   contextType: {
     module: require.resolve('./context'),
