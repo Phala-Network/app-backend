@@ -1,6 +1,6 @@
 .DS_Store
 dist/
-src/schema/generated/
+src/generated/
 *.db
 *.sqlite3
 

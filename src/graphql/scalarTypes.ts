@@ -1,6 +1,18 @@
 import {scalarType} from 'nexus'
 import {Prisma} from '@prisma/client'
 
+export const BigIntScalar = scalarType({
+  name: 'BigInt',
+  asNexusMethod: 'bigint',
+  sourceType: 'bigint',
+  parseValue(value: string | number) {
+    return BigInt(value)
+  },
+  serialize(value: bigint) {
+    return value.toString()
+  },
+})
+
 export const DecimalScalar = scalarType({
   name: 'Decimal',
   asNexusMethod: 'decimal',
