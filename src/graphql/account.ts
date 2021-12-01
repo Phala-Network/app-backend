@@ -5,16 +5,20 @@ export const Account = objectType({
   definition(t) {
     t.int('id')
     t.nullable.string('address')
-    t.boolean('miner_operator_role')
-    t.decimal('balance')
-    t.nullable.list.field('stake_pools', {
+    t.list.field('stake_pools', {
       type: 'StakePool',
-      resolve: (parent, args, context) => {
-        return context.prisma.accounts
-          .findUnique({
-            where: {id: parent.id || undefined},
-          })
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.accounts
+          .findUnique({where: {id: parent.id}})
           .stake_pools()
+      },
+    })
+    t.list.field('stake_pool_stakers', {
+      type: 'Staker',
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.accounts
+          .findUnique({where: {id: parent.id}})
+          .stake_pool_stakers()
       },
     })
   },

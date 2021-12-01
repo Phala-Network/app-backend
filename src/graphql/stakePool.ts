@@ -3,12 +3,12 @@ import {inputObjectType, objectType} from 'nexus'
 export const StakePool = objectType({
   name: 'StakePool',
   definition(t) {
-    t.string('pid')
-    t.int('stakers_count')
-    t.bigInt('last_updated_block_number')
+    t.bigInt('pid')
+    t.string('owner_address')
     t.decimal('commission')
     t.decimal('owner_reward')
     t.decimal('cap')
+    t.decimal('reward_acc')
     t.decimal('total_shares')
     t.decimal('total_stake')
     t.decimal('free_stake')
@@ -18,6 +18,7 @@ export const StakePool = objectType({
     t.int('stakers_count')
     t.int('workers_count')
     t.int('mining_workers_count')
+    t.decimal('apr')
   },
 })
 
@@ -47,7 +48,7 @@ export const StakePoolWhereInput = inputObjectType({
     t.list.nonNull.field('AND', {type: 'StakePoolWhereInput'})
     t.list.nonNull.field('NOT', {type: 'StakePoolWhereInput'})
     t.list.nonNull.field('OR', {type: 'StakePoolWhereInput'})
-    t.field('pid', {type: 'StringFilter'})
+    t.field('pid', {type: 'BigIntFilter'})
     t.field('commission', {type: 'DecimalFilter'})
     t.field('workers_count', {type: 'IntFilter'})
     // TODO: add more fields

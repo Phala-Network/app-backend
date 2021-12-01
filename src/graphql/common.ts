@@ -48,3 +48,17 @@ export const IntFilter = inputObjectType({
     t.int('not')
   },
 })
+
+export const BigIntFilter = inputObjectType({
+  name: 'BigIntFilter',
+  definition(t) {
+    t.bigInt('equals')
+    t.list.nonNull.bigInt('in')
+    t.list.nonNull.bigInt('notIn')
+    t.bigInt('lt')
+    t.bigInt('lte')
+    t.bigInt('gt')
+    t.bigInt('gte')
+    t.bigInt('not')
+  },
+})

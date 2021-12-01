@@ -1,4 +1,4 @@
-import {queryType, intArg, arg, stringArg} from 'nexus'
+import {queryType, intArg, arg} from 'nexus'
 
 export const Query = queryType({
   definition(t) {
@@ -10,8 +10,8 @@ export const Query = queryType({
         orderBy: arg({type: 'StakePoolOrderByInput'}),
         where: arg({type: 'StakePoolWhereInput'}),
       },
-      resolve: (parent, args, context) => {
-        return context.prisma.stake_pools.findMany({
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.stake_pools.findMany({
           take: args.take || undefined,
           skip: args.skip || undefined,
           // FIXME: null type should not be generated
@@ -23,8 +23,8 @@ export const Query = queryType({
 
     t.list.field('Account', {
       type: 'Account',
-      resolve: (parent, args, context) => {
-        return context.prisma.accounts.findMany()
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.accounts.findMany()
       },
     })
   },

@@ -6,26 +6,31 @@
   "scripts": {
     "start": "NODE_ENV=production node dist",
     "clean": "rm -rf dist",
-    "dev": "ts-node-dev --no-notify --respawn --transpile-only src",
+    "dev": "yarn generate && ts-node-dev --no-notify --respawn --transpile-only src",
     "generate": "yarn generate:prisma && yarn generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema",
-    "build": "yarn clean && yarn generate && tsc"
+    "build": "yarn clean && yarn generate && tsc",
+    "generate:graphql": "graphql-codegen --config codegen.yml"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.3.0",
+    "@graphql-codegen/typescript": "2.4.1",
+    "@graphql-codegen/typescript-operations": "2.2.1",
+    "@graphql-codegen/typescript-react-query": "^3.2.1",
     "@tsconfig/node16": "^1.0.2",
-    "@types/node": "^16.11.10",
+    "@types/node": "^16.11.11",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.2"
   },
   "dependencies": {
-    "@prisma/client": "^3.5.0",
+    "@prisma/client": "^3.6.0",
     "@types/lodash": "^4.14.177",
     "apollo-server": "^3.5.0",
     "graphql": "^15.7.2",
     "lodash": "^4.17.21",
     "nexus": "^1.1.0",
-    "prisma": "^3.5.0"
+    "prisma": "^3.6.0"
   }
 }

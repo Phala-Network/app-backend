@@ -2,6 +2,7 @@
 dist/
 src/generated/
 *.db
+codegen/
 
 # Logs
 logs
