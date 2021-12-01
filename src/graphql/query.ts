@@ -2,7 +2,7 @@ import {queryType, intArg, arg} from 'nexus'
 
 export const Query = queryType({
   definition(t) {
-    t.list.field('StakePool', {
+    t.list.field('stakePool', {
       type: 'StakePool',
       args: {
         take: intArg(),
@@ -21,7 +21,7 @@ export const Query = queryType({
       },
     })
 
-    t.list.field('Account', {
+    t.list.field('account', {
       type: 'Account',
       resolve: (parent, args, ctx) => {
         return ctx.prisma.accounts.findMany()

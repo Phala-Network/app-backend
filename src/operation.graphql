@@ -1,29 +1,29 @@
-query StakePool(
+query stakePool(
   $take: Int
   $orderBy: StakePoolOrderByInput
   $skip: Int
   $where: StakePoolWhereInput
 ) {
-  StakePool(take: $take, skip: $skip, orderBy: $orderBy, where: $where) {
+  stakePool(take: $take, skip: $skip, orderBy: $orderBy, where: $where) {
     ...StakePoolFields
   }
 }
 
 fragment StakePoolFields on StakePool {
   pid
-  owner_address
+  ownerAddress
   commission
-  owner_reward
+  ownerReward
   cap
-  reward_acc
-  total_shares
-  total_stake
-  releasing_stake
-  free_stake
-  commission_ratio
-  used_stake
-  stakers_count
-  workers_count
-  mining_workers_count
+  rewardAcc
+  totalShares
+  totalStake
+  releasingStake
+  freeStake
+  commissionRatio
+  usedStake
+  stakersCount
+  workersCount
+  miningWorkersCount
   apr
 }
