@@ -6,23 +6,23 @@ export const Staker = objectType({
     t.int('id')
     t.decimal('locked')
     t.decimal('shares')
-    t.decimal('available_rewards')
-    t.decimal('reward_debt')
-    t.boolean('is_owner')
-    t.nullable.field('stake_pools', {
+    t.decimal('availableRewards')
+    t.decimal('rewardDebt')
+    t.boolean('isOwner')
+    t.nullable.field('stakePools', {
       type: 'StakePool',
       resolve: (parent, args, ctx) => {
-        return ctx.prisma.stake_pool_stakers
+        return ctx.prisma.stakePoolStakers
           .findUnique({
             where: {id: parent.id},
           })
-          .stake_pools()
+          .StakePools()
       },
     })
     t.nullable.field('accounts', {
       type: 'Account',
       resolve: (parent, args, ctx) => {
-        return ctx.prisma.stake_pool_stakers
+        return ctx.prisma.stakePoolStakers
           .findUnique({
             where: {id: parent.id},
           })

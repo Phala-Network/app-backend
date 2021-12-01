@@ -11,7 +11,7 @@ export const Query = queryType({
         where: arg({type: 'StakePoolWhereInput'}),
       },
       resolve: (parent, args, ctx) => {
-        return ctx.prisma.stake_pools.findMany({
+        return ctx.prisma.stakePools.findMany({
           take: args.take || undefined,
           skip: args.skip || undefined,
           // FIXME: null type should not be generated

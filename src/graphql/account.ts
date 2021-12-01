@@ -5,7 +5,7 @@ export const Account = objectType({
   definition(t) {
     t.int('id')
     t.nullable.string('address')
-    t.list.field('stake_pools', {
+    t.list.field('stakePools', {
       type: 'StakePool',
       resolve: (parent, args, ctx) => {
         return ctx.prisma.accounts
@@ -13,7 +13,7 @@ export const Account = objectType({
           .stake_pools()
       },
     })
-    t.list.field('stake_pool_stakers', {
+    t.list.field('stakePoolStakers', {
       type: 'Staker',
       resolve: (parent, args, ctx) => {
         return ctx.prisma.accounts
