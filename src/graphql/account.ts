@@ -10,7 +10,7 @@ export const Account = objectType({
       resolve: (parent, args, ctx) => {
         return ctx.prisma.accounts
           .findUnique({where: {id: parent.id}})
-          .stake_pools()
+          .stakePools()
       },
     })
     t.list.field('stakePoolStakers', {
@@ -18,7 +18,7 @@ export const Account = objectType({
       resolve: (parent, args, ctx) => {
         return ctx.prisma.accounts
           .findUnique({where: {id: parent.id}})
-          .stake_pool_stakers()
+          .stakePoolStakers()
       },
     })
   },

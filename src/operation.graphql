@@ -1,11 +1,14 @@
-query stakePool(
+query stakePoolList(
   $take: Int
   $orderBy: StakePoolOrderByInput
   $skip: Int
   $where: StakePoolWhereInput
 ) {
-  stakePool(take: $take, skip: $skip, orderBy: $orderBy, where: $where) {
-    ...StakePoolFields
+  stakePoolList(take: $take, skip: $skip, orderBy: $orderBy, where: $where) {
+    totalCount
+    list {
+      ...StakePoolFields
+    }
   }
 }
 

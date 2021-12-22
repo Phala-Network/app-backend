@@ -39,6 +39,7 @@ export const StakePoolOrderByInput = inputObjectType({
     t.field('stakersCount', {type: 'SortOrder'})
     t.field('workersCount', {type: 'SortOrder'})
     t.field('miningWorkersCount', {type: 'SortOrder'})
+    t.field('apr', {type: 'SortOrder'})
   },
 })
 
@@ -49,8 +50,20 @@ export const StakePoolWhereInput = inputObjectType({
     t.list.nonNull.field('NOT', {type: 'StakePoolWhereInput'})
     t.list.nonNull.field('OR', {type: 'StakePoolWhereInput'})
     t.field('pid', {type: 'BigIntFilter'})
-    t.field('commission', {type: 'DecimalFilter'})
+    t.field('ownerAddress', {type: 'StringFilter'})
     t.field('workersCount', {type: 'IntFilter'})
-    // TODO: add more fields
+    t.field('apr', {type: 'DecimalFilter'})
+    t.field('commission', {type: 'DecimalFilter'})
+    t.field('freeStake', {type: 'DecimalFilter'})
+  },
+})
+
+export const StakePoolList = objectType({
+  name: 'StakePoolList',
+  definition(t) {
+    t.list.field('list', {
+      type: 'StakePool',
+    })
+    t.int('totalCount')
   },
 })

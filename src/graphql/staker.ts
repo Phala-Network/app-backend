@@ -16,7 +16,7 @@ export const Staker = objectType({
           .findUnique({
             where: {id: parent.id},
           })
-          .StakePools()
+          .stakePools()
       },
     })
     t.nullable.field('accounts', {

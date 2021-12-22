@@ -7,64 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model accounts {
-  id                 Int                        @id @default(autoincrement())
-  address            String?                    @unique(map: "index_accounts_on_address")
-  createdAt          Unsupported("datetime(6)") @map("created_at")
-  updatedAt          Unsupported("datetime(6)") @map("updated_at")
-  stake_pool_stakers StakePoolStakers[]
-  stake_pools        StakePools[]
-  worker_activities  WorkerActivities[]
-  workers            workers[]
+model Accounts {
+  id               Int                        @id @default(autoincrement())
+  address          String?                    @unique(map: "index_accounts_on_address")
+  createdAt        Unsupported("datetime(6)")
+  updatedAt        Unsupported("datetime(6)")
+  stakePoolStakers StakePoolStakers[]
+  stakePools       StakePools[]
+  workerActivities WorkerActivities[]
+  workers          Workers[]
+
+  @@map("accounts")
 }
 
 model ArInternalMetadata {
   key       String                     @id
   value     String?
-  createdAt Unsupported("datetime(6)") @map("created_at")
-  updatedAt Unsupported("datetime(6)") @map("updated_at")
+  createdAt Unsupported("datetime(6)")
+  updatedAt Unsupported("datetime(6)")
 
   @@map("ar_internal_metadata")
 }
 
-model events {
-  id                           Int                         @id @default(autoincrement())
-  blockNumber                  BigInt                      @map("block_number")
-  timestamp                    DateTime
-  tokenomicVersion             Int                         @map("tokenomic_version")
-  section                      String
-  name                         String
-  data                         String?
-  skipped                      Boolean                     @default(false)
-  note                         String?
-  createdAt                    DateTime?                   @map("created_at")
-  processedAt                  DateTime?                   @map("processed_at")
-  stake_pool_activities        StakePoolActivities[]
-  stake_pool_staker_activities StakePoolStakerActivities[]
-  worker_activities            WorkerActivities[]
+model Events {
+  id                        Int                         @id @default(autoincrement())
+  blockNumber               BigInt
+  timestamp                 DateTime
+  tokenomicVersion          Int                         @map("tokenomic_version")
+  section                   String
+  name                      String
+  data                      String?
+  skipped                   Boolean                     @default(false)
+  note                      String?
+  createdAt                 DateTime?                   @map("created_at")
+  processedAt               DateTime?                   @map("processed_at")
+  stakePoolActivities       StakePoolActivities[]
+  stakePoolStakerActivities StakePoolStakerActivities[]
+  workerActivities          WorkerActivities[]
+
+  @@map("events")
 }
 
-model miners {
+model Miners {
   id                     Int                        @id @default(autoincrement())
   address                String                     @unique(map: "index_miners_on_address")
   workerId               Int                        @map("worker_id")
   stakePoolId            Int?                       @map("stake_pool_id")
-  lastUpdatedBlockNumber BigInt                     @map("last_updated_block_number")
+  lastUpdatedBlockNumber BigInt
   lastUpdatedTimestamp   DateTime                   @map("last_updated_timestamp")
   state                  String                     @default("")
   v                      Decimal                    @default(0.0)
   ve                     Decimal                    @default(0.0)
   pInit                  Int                        @default(0) @map("p_init")
   pInstant               Int                        @default(0) @map("p_instant")
-  totalReward            Decimal                    @default(0.0) @map("total_reward")
+  totalReward            Decimal                    @default(0.0)
   share                  Decimal                    @default(0.0)
-  createdAt              Unsupported("datetime(6)") @map("created_at")
-  updatedAt              Unsupported("datetime(6)") @map("updated_at")
-  stake_pools            StakePools?                @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  workers                workers                    @relation(fields: [workerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt              Unsupported("datetime(6)")
+  updatedAt              Unsupported("datetime(6)")
+  stakePools             StakePools?                @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workers                Workers                    @relation(fields: [workerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([stakePoolId], map: "index_miners_on_stakePoolId")
-  @@index([workerId], map: "index_miners_on_workerId")
+  @@index([stakePoolId], map: "index_miners_on_stake_pool_id")
+  @@index([workerId], map: "index_miners_on_worker_id")
+  @@map("miners")
 }
 
 model SchemaMigrations {
@@ -78,74 +83,86 @@ model StakePoolActivities {
   eventId            Int?                       @map("event_id")
   stakePoolId        Int                        @map("stake_pool_id")
   type               String
-  blockNumber        BigInt                     @map("block_number")
+  blockNumber        BigInt
   timestamp          DateTime
   tokenomicVersion   Int                        @map("tokenomic_version")
   commission         Decimal                    @default(0.0)
-  ownerReward        Decimal                    @default(0.0) @map("owner_reward")
+  ownerReward        Decimal                    @default(0.0)
   cap                Decimal                    @default(0.0)
-  rewardAcc          Decimal                    @default(0.0) @map("reward_acc")
-  totalShares        Decimal                    @default(0.0) @map("total_shares")
-  totalStake         Decimal                    @default(0.0) @map("total_stake")
-  freeStake          Decimal                    @default(0.0) @map("free_stake")
-  releasingStake     Decimal                    @default(0.0) @map("releasing_stake")
-  commissionRatio    Decimal                    @default(0.0) @map("commission_ratio")
-  usedStake          Decimal                    @default(0.0) @map("used_stake")
+  rewardAcc          Decimal                    @default(0.0)
+  totalShares        Decimal                    @default(0.0)
+  totalStake         Decimal                    @default(0.0)
+  freeStake          Decimal                    @default(0.0)
+  releasingStake     Decimal                    @default(0.0)
+  commissionRatio    Decimal                    @default(0.0)
+  usedStake          Decimal                    @default(0.0)
   stakersCount       Int                        @default(0) @map("stakers_count")
   workersCount       Int                        @default(0) @map("workers_count")
   miningWorkersCount Int                        @default(0) @map("mining_workers_count")
   apr                Decimal                    @default(0.0)
-  createdAt          Unsupported("datetime(6)") @map("created_at")
-  updatedAt          Unsupported("datetime(6)") @map("updated_at")
-  events             events?                    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  StakePools         StakePools                 @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt          Unsupported("datetime(6)")
+  updatedAt          Unsupported("datetime(6)")
+  events             Events?                    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stakePools         StakePools                 @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([stakePoolId], map: "index_stake_pool_activities_on_stakePoolId")
-  @@index([eventId], map: "index_stake_pool_activities_on_eventId")
+  @@index([stakePoolId], map: "index_stake_pool_activities_on_stake_pool_id")
+  @@index([eventId], map: "index_stake_pool_activities_on_event_id")
   @@map("stake_pool_activities")
 }
 
 model StakePoolStakerActivities {
-  id                Int                        @id @default(autoincrement())
-  eventId           Int?                       @map("event_id")
-  stakePoolStakerId Int                        @map("stake_pool_staker_id")
-  type              String
-  blockNumber       BigInt                     @map("block_number")
-  timestamp         DateTime
-  tokenomicVersion  Int                        @map("tokenomic_version")
-  locked            Decimal                    @default(0.0)
-  shares            Decimal                    @default(0.0)
-  availableRewards  Decimal                    @default(0.0) @map("available_rewards")
-  rewardDebt        Decimal                    @default(0.0) @map("reward_debt")
-  createdAt         Unsupported("datetime(6)") @map("created_at")
-  updatedAt         Unsupported("datetime(6)") @map("updated_at")
-  events            events?                    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  StakePoolStakers  StakePoolStakers           @relation(fields: [stakePoolStakerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                      Int                        @id @default(autoincrement())
+  eventId                 Int?                       @map("event_id")
+  stakePoolStakerId       Int                        @map("stake_pool_staker_id")
+  type                    String
+  blockNumber             BigInt
+  timestamp               DateTime
+  tokenomicVersion        Int                        @map("tokenomic_version")
+  locked                  Decimal                    @default(0.0)
+  shares                  Decimal                    @default(0.0)
+  availableRewards        Decimal                    @default(0.0)
+  rewardDebt              Decimal                    @default(0.0)
+  stake                   Decimal                    @default(0.0)
+  pendingRewards          Decimal                    @default(0.0)
+  stakeRewards            Decimal                    @default(0.0)
+  claimableRewards        Decimal                    @default(0.0)
+  instantClaimableRewards Decimal                    @default(0.0)
+  createdAt               Unsupported("datetime(6)")
+  updatedAt               Unsupported("datetime(6)")
+  events                  Events?                    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stakePoolStakers        StakePoolStakers           @relation(fields: [stakePoolStakerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([stakePoolStakerId], map: "index_stake_pool_staker_activities_on_stakePoolStakerId")
-  @@index([eventId], map: "index_stake_pool_staker_activities_on_eventId")
+  @@index([stakePoolStakerId], map: "index_stake_pool_staker_activities_on_stake_pool_staker_id")
+  @@index([eventId], map: "index_stake_pool_staker_activities_on_event_id")
   @@map("stake_pool_staker_activities")
 }
 
 model StakePoolStakers {
-  id                           Int                         @id @default(autoincrement())
-  userId                       Int                         @map("user_id")
-  stakePoolId                  Int                         @map("stake_pool_id")
-  lastUpdatedBlockNumber       BigInt                      @map("last_updated_block_number")
-  lastUpdatedTimestamp         DateTime                    @map("last_updated_timestamp")
-  locked                       Decimal                     @default(0.0)
-  shares                       Decimal                     @default(0.0)
-  availableRewards             Decimal                     @default(0.0) @map("available_rewards")
-  rewardDebt                   Decimal                     @default(0.0) @map("reward_debt")
-  isOwner                      Boolean                     @default(false) @map("is_owner")
-  createdAt                    Unsupported("datetime(6)")  @map("created_at")
-  updatedAt                    Unsupported("datetime(6)")  @map("updated_at")
-  StakePools                   StakePools                  @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  accounts                     accounts                    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stake_pool_staker_activities StakePoolStakerActivities[]
+  id                        Int                         @id @default(autoincrement())
+  stakePoolId               Int                         @map("stake_pool_id")
+  address                   String?
+  userId                    Int                         @map("user_id")
+  lastUpdatedBlockNumber    BigInt
+  lastUpdatedTimestamp      DateTime                    @map("last_updated_timestamp")
+  locked                    Decimal                     @default(0.0)
+  shares                    Decimal                     @default(0.0)
+  availableRewards          Decimal                     @default(0.0)
+  rewardDebt                Decimal                     @default(0.0)
+  stake                     Decimal                     @default(0.0)
+  pendingRewards            Decimal                     @default(0.0)
+  stakeRewards              Decimal                     @default(0.0)
+  claimableRewards          Decimal                     @default(0.0)
+  instantClaimableRewards   Decimal                     @default(0.0)
+  isOwner                   Boolean                     @default(false) @map("is_owner")
+  createdAt                 Unsupported("datetime(6)")
+  updatedAt                 Unsupported("datetime(6)")
+  stakePools                StakePools                  @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  accounts                  Accounts                    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stakePoolStakerActivities StakePoolStakerActivities[]
 
-  @@index([stakePoolId], map: "index_stake_pool_stakers_on_stakePoolId")
-  @@index([userId], map: "index_stake_pool_stakers_on_userId")
+  @@index([userId], map: "index_stake_pool_stakers_on_user_id")
+  @@index([address], map: "index_stake_pool_stakers_on_address")
+  @@index([stakePoolId], map: "index_stake_pool_stakers_on_stake_pool_id")
   @@map("stake_pool_stakers")
 }
 
@@ -154,48 +171,49 @@ model StakePools {
   pid                    BigInt                     @unique(map: "index_stake_pools_on_pid")
   ownerAddress           String                     @map("owner_address")
   ownerId                Int                        @map("owner_id")
-  lastUpdatedBlockNumber BigInt                     @default(0) @map("last_updated_block_number")
+  lastUpdatedBlockNumber BigInt                     @default(0)
   lastUpdatedTimestamp   DateTime                   @map("last_updated_timestamp")
   commission             Decimal                    @default(0.0)
-  ownerReward            Decimal                    @default(0.0) @map("owner_reward")
+  ownerReward            Decimal                    @default(0.0)
   cap                    Decimal                    @default(0.0)
-  rewardAcc              Decimal                    @default(0.0) @map("reward_acc")
-  totalShares            Decimal                    @default(0.0) @map("total_shares")
-  totalStake             Decimal                    @default(0.0) @map("total_stake")
-  freeStake              Decimal                    @default(0.0) @map("free_stake")
-  releasingStake         Decimal                    @default(0.0) @map("releasing_stake")
-  commissionRatio        Decimal                    @default(0.0) @map("commission_ratio")
-  usedStake              Decimal                    @default(0.0) @map("used_stake")
+  rewardAcc              Decimal                    @default(0.0)
+  totalShares            Decimal                    @default(0.0)
+  totalStake             Decimal                    @default(0.0)
+  freeStake              Decimal                    @default(0.0)
+  releasingStake         Decimal                    @default(0.0)
+  commissionRatio        Decimal                    @default(0.0)
+  usedStake              Decimal                    @default(0.0)
   stakersCount           Int                        @default(0) @map("stakers_count")
   workersCount           Int                        @default(0) @map("workers_count")
   miningWorkersCount     Int                        @default(0) @map("mining_workers_count")
   apr                    Decimal                    @default(0.0)
-  createdAt              Unsupported("datetime(6)") @map("created_at")
-  updatedAt              Unsupported("datetime(6)") @map("updated_at")
-  accounts               accounts                   @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  miners                 miners[]
-  stake_pool_activities  StakePoolActivities[]
-  stake_pool_stakers     StakePoolStakers[]
-  worker_activities      WorkerActivities[]
-  workers                workers[]
+  createdAt              Unsupported("datetime(6)")
+  updatedAt              Unsupported("datetime(6)")
+  accounts               Accounts                   @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  miners                 Miners[]
+  stakePoolActivities    StakePoolActivities[]
+  stakePoolStakers       StakePoolStakers[]
+  workerActivities       WorkerActivities[]
+  workers                Workers[]
 
-  @@index([ownerId], map: "index_stake_pools_on_ownerId")
-  @@index([ownerAddress], map: "index_stake_pools_on_ownerAddress")
+  @@index([ownerId], map: "index_stake_pools_on_owner_id")
+  @@index([ownerAddress], map: "index_stake_pools_on_owner_address")
   @@map("stake_pools")
 }
 
-model states {
+model States {
   id            Int                        @id @default(autoincrement())
   key           String?
   visible       Boolean?
-  decimalValue  Decimal?                   @map("decimal_value")
+  decimalValue  Decimal?
   integerValue  Int?                       @map("integer_value")
   stringValue   String?                    @map("string_value")
   datetimeValue DateTime?                  @map("datetime_value")
-  createdAt     Unsupported("datetime(6)") @map("created_at")
-  updatedAt     Unsupported("datetime(6)") @map("updated_at")
+  createdAt     Unsupported("datetime(6)")
+  updatedAt     Unsupported("datetime(6)")
 
   @@index([key], map: "index_states_on_key")
+  @@map("states")
 }
 
 model WorkerActivities {
@@ -203,7 +221,7 @@ model WorkerActivities {
   eventId             Int?                       @map("event_id")
   workerId            Int                        @map("worker_id")
   type                String
-  blockNumber         BigInt                     @map("block_number")
+  blockNumber         BigInt
   timestamp           DateTime
   tokenomicVersion    Int                        @map("tokenomic_version")
   operatorAddress     String?                    @map("operator_address")
@@ -213,7 +231,7 @@ model WorkerActivities {
   confidenceLevel     Int                        @default(0) @map("confidence_level")
   features            Int?
   initialScore        Int                        @default(0) @map("initial_score")
-  infoLastUpdatedAt   DateTime                   @map("info_last_updatedAt")
+  infoLastUpdatedAt   DateTime                   @map("info_last_updated_at")
   pid                 BigInt?
   stakePoolId         Int?                       @map("stake_pool_id")
   minerAccountAddress String?                    @map("miner_account_address")
@@ -222,60 +240,65 @@ model WorkerActivities {
   ve                  Decimal                    @default(0.0)
   pInit               Int                        @default(0) @map("p_init")
   pInstant            Int                        @default(0) @map("p_instant")
-  totalReward         Decimal                    @default(0.0) @map("total_reward")
-  sMin                Decimal                    @default(0.0) @map("s_min")
-  sMax                Decimal                    @default(0.0) @map("s_max")
+  totalReward         Decimal                    @default(0.0)
+  sMin                Decimal                    @default(0.0)
+  sMax                Decimal                    @default(0.0)
   share               Decimal                    @default(0.0)
-  createdAt           Unsupported("datetime(6)") @map("created_at")
-  updatedAt           Unsupported("datetime(6)") @map("updated_at")
-  events              events?                    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  accounts            accounts?                  @relation(fields: [operatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stake_pools         StakePools?                @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  workers             workers                    @relation(fields: [workerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt           Unsupported("datetime(6)")
+  updatedAt           Unsupported("datetime(6)")
+  events              Events?                    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  accounts            Accounts?                  @relation(fields: [operatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stakePools          StakePools?                @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workers             Workers                    @relation(fields: [workerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([minerAccountAddress], map: "index_worker_activities_on_minerAccountAddress")
-  @@index([stakePoolId], map: "index_worker_activities_on_stakePoolId")
-  @@index([operatorId], map: "index_worker_activities_on_operatorId")
-  @@index([workerId], map: "index_worker_activities_on_workerId")
-  @@index([eventId], map: "index_worker_activities_on_eventId")
+  @@index([minerAccountAddress], map: "index_worker_activities_on_miner_account_address")
+  @@index([stakePoolId], map: "index_worker_activities_on_stake_pool_id")
+  @@index([operatorId], map: "index_worker_activities_on_operator_id")
+  @@index([workerId], map: "index_worker_activities_on_worker_id")
+  @@index([eventId], map: "index_worker_activities_on_event_id")
   @@map("worker_activities")
 }
 
-model workers {
-  id                     Int                        @id @default(autoincrement())
-  publicKey              String                     @unique(map: "index_workers_on_public_key") @map("public_key")
-  lastUpdatedBlockNumber BigInt                     @map("last_updated_block_number")
-  lastUpdatedTimestamp   DateTime                   @map("last_updated_timestamp")
-  operatorAddress        String?                    @map("operator_address")
-  operatorId             Int?                       @map("operator_id")
-  ecdhPublicKey          String?                    @unique(map: "index_workers_on_ecdh_publicKey") @map("ecdh_publicKey")
-  runtimeVersion         Int                        @default(0) @map("runtime_version")
-  confidenceLevel        Int                        @default(0) @map("confidence_level")
-  features               Int?
-  initialScore           Int                        @default(0) @map("initial_score")
-  infoLastUpdatedAt      DateTime                   @map("info_last_updatedAt")
-  pid                    BigInt?
-  stakePoolId            Int?                       @map("stake_pool_id")
-  minerAccountAddress    String?                    @map("miner_account_address")
-  state                  String                     @default("")
-  v                      Decimal                    @default(0.0)
-  ve                     Decimal                    @default(0.0)
-  pInit                  Int                        @default(0) @map("p_init")
-  pInstant               Int                        @default(0) @map("p_instant")
-  totalReward            Decimal                    @default(0.0) @map("total_reward")
-  sMin                   Decimal                    @default(0.0) @map("s_min")
-  sMax                   Decimal                    @default(0.0) @map("s_max")
-  share                  Decimal                    @default(0.0)
-  createdAt              Unsupported("datetime(6)") @map("created_at")
-  updatedAt              Unsupported("datetime(6)") @map("updated_at")
-  accounts               accounts?                  @relation(fields: [operatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stake_pools            StakePools?                @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  miners                 miners[]
-  worker_activities      WorkerActivities[]
+model Workers {
+  id                        Int                        @id @default(autoincrement())
+  publicKey                 String                     @unique(map: "index_workers_on_public_key") @map("public_key")
+  addedAtBlockNumber        BigInt
+  addedAtUpdatedTimestamp   DateTime                   @map("added_at_updated_timestamp")
+  removedAtBlockNumber      BigInt?
+  removedAtUpdatedTimestamp DateTime?                  @map("removed_at_updated_timestamp")
+  lastUpdatedBlockNumber    BigInt
+  lastUpdatedTimestamp      DateTime                   @map("last_updated_timestamp")
+  operatorAddress           String?                    @map("operator_address")
+  operatorId                Int?                       @map("operator_id")
+  ecdhPublicKey             String?                    @unique(map: "index_workers_on_ecdh_public_key") @map("ecdh_public_key")
+  runtimeVersion            Int                        @default(0) @map("runtime_version")
+  confidenceLevel           Int                        @default(0) @map("confidence_level")
+  features                  Int?
+  initialScore              Int                        @default(0) @map("initial_score")
+  infoLastUpdatedAt         DateTime                   @map("info_last_updated_at")
+  pid                       BigInt?
+  stakePoolId               Int?                       @map("stake_pool_id")
+  minerAccountAddress       String?                    @map("miner_account_address")
+  state                     String                     @default("")
+  v                         Decimal                    @default(0.0)
+  ve                        Decimal                    @default(0.0)
+  pInit                     Int                        @default(0) @map("p_init")
+  pInstant                  Int                        @default(0) @map("p_instant")
+  totalReward               Decimal                    @default(0.0)
+  sMin                      Decimal                    @default(0.0)
+  sMax                      Decimal                    @default(0.0)
+  share                     Decimal                    @default(0.0)
+  createdAt                 Unsupported("datetime(6)")
+  updatedAt                 Unsupported("datetime(6)")
+  accounts                  Accounts?                  @relation(fields: [operatorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stakePools                StakePools?                @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  miners                    Miners[]
+  workerActivities          WorkerActivities[]
 
-  @@index([minerAccountAddress], map: "index_workers_on_minerAccountAddress")
-  @@index([stakePoolId], map: "index_workers_on_stakePoolId")
+  @@index([minerAccountAddress], map: "index_workers_on_miner_account_address")
+  @@index([stakePoolId], map: "index_workers_on_stake_pool_id")
   @@index([pid], map: "index_workers_on_pid")
-  @@index([operatorId], map: "index_workers_on_operatorId")
-  @@index([operatorAddress], map: "index_workers_on_operatorAddress")
+  @@index([operatorId], map: "index_workers_on_operator_id")
+  @@index([operatorAddress], map: "index_workers_on_operator_address")
+  @@map("workers")
 }
