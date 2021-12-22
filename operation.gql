@@ -1,0 +1,59 @@
+query StakePools(
+  $where: StakePoolsWhereInput
+  $orderBy: [StakePoolsOrderByWithRelationInput!]
+  $take: Int
+  $skip: Int
+  $withStakePoolStakers: Boolean!
+  $stakePoolStakersWhere: StakePoolStakersWhereInput
+) {
+  findManyStakePools(
+    where: $where
+    orderBy: $orderBy
+    take: $take
+    skip: $skip
+  ) {
+    pid
+    ownerAddress
+    commission
+    ownerReward
+    cap
+    rewardAcc
+    totalShares
+    totalStake
+    freeStake
+    releasingStake
+    commissionRatio
+    usedStake
+    stakersCount
+    workersCount
+    miningWorkersCount
+    apr
+    stakePoolStakers(where: $stakePoolStakersWhere)
+      @include(if: $withStakePoolStakers) {
+      address
+      shares
+      locked
+      availableRewards
+      rewardDebt
+      stake
+      pendingRewards
+      stakeRewards
+      claimableRewards
+      instantClaimableRewards
+      isOwner
+    }
+  }
+  aggregateStakePools(where: $where) {
+    _count {
+      _all
+    }
+  }
+}
+
+query AggregateStakePools {
+  aggregateStakePools {
+    _sum {
+      totalStake
+    }
+  }
+}
