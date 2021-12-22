@@ -16,22 +16,17 @@ export const Query = queryType({
           skip: args.skip || undefined,
           // FIXME: null type should not be generated
           orderBy: (args.orderBy as any) || undefined,
+          // FIXME: null type should not be generated
           where: (args.where as any) || undefined,
         })
         const totalCount = await ctx.prisma.stakePools.count({
+          // FIXME: null type should not be generated
           where: (args.where as any) || undefined,
         })
         return {
           list,
           totalCount,
         }
-      },
-    })
-
-    t.list.field('accountList', {
-      type: 'Account',
-      resolve: (parent, args, ctx) => {
-        return ctx.prisma.accounts.findMany()
       },
     })
   },

@@ -3,6 +3,7 @@ import {inputObjectType, objectType} from 'nexus'
 export const StakePool = objectType({
   name: 'StakePool',
   definition(t) {
+    t.int('id')
     t.bigInt('pid')
     t.string('ownerAddress')
     t.decimal('commission')
@@ -19,6 +20,9 @@ export const StakePool = objectType({
     t.int('workersCount')
     t.int('miningWorkersCount')
     t.decimal('apr')
+    t.nullable.list.field('stakePoolStakers', {
+      type: 'Staker',
+    })
   },
 })
 
@@ -43,6 +47,13 @@ export const StakePoolOrderByInput = inputObjectType({
   },
 })
 
+const StakePoolStakersFilter = inputObjectType({
+  name: 'StakePoolStakersFilter',
+  definition(t) {
+    t.field('some', {type: 'StakerWhereInput'})
+  },
+})
+
 export const StakePoolWhereInput = inputObjectType({
   name: 'StakePoolWhereInput',
   definition(t) {
@@ -55,6 +66,21 @@ export const StakePoolWhereInput = inputObjectType({
     t.field('apr', {type: 'DecimalFilter'})
     t.field('commission', {type: 'DecimalFilter'})
     t.field('freeStake', {type: 'DecimalFilter'})
+    t.field('stakePoolStakers', {type: StakePoolStakersFilter})
+  },
+})
+
+const StakePoolStakersInclude = inputObjectType({
+  name: 'stakePoolStakersInclude',
+  definition(t) {
+    t.field('where', {type: 'StakerWhereInput'})
+  },
+})
+
+export const StakePoolIncludeInput = inputObjectType({
+  name: 'StakePoolIncludeInput',
+  definition(t) {
+    t.field('stakePoolStakers', {type: StakePoolStakersInclude})
   },
 })
 

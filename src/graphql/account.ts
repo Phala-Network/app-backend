@@ -1,4 +1,4 @@
-import {objectType} from 'nexus'
+import {inputObjectType, objectType} from 'nexus'
 
 export const Account = objectType({
   name: 'Account',
@@ -7,19 +7,19 @@ export const Account = objectType({
     t.nullable.string('address')
     t.list.field('stakePools', {
       type: 'StakePool',
-      resolve: (parent, args, ctx) => {
-        return ctx.prisma.accounts
-          .findUnique({where: {id: parent.id}})
-          .stakePools()
-      },
     })
     t.list.field('stakePoolStakers', {
       type: 'Staker',
-      resolve: (parent, args, ctx) => {
-        return ctx.prisma.accounts
-          .findUnique({where: {id: parent.id}})
-          .stakePoolStakers()
-      },
     })
+  },
+})
+
+export const AccountWhereInput = inputObjectType({
+  name: 'AccountWhereInput',
+  definition(t) {
+    t.list.nonNull.field('AND', {type: 'AccountWhereInput'})
+    t.list.nonNull.field('NOT', {type: 'AccountWhereInput'})
+    t.list.nonNull.field('OR', {type: 'AccountWhereInput'})
+    t.field('address', {type: 'StringFilter'})
   },
 })
