@@ -34,7 +34,6 @@
     "build": "yarn clean && yarn generate:prisma && tsc",
     "clean": "rm -rf dist",
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src",
-    "generate": "yarn generate:prisma && yarn generate:graphql",
     "generate:graphql": "graphql-codegen --config codegen.yml",
     "generate:prisma": "prisma generate",
     "start": "NODE_ENV=production node dist"
