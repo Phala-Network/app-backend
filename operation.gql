@@ -3,7 +3,7 @@ query StakePools(
   $orderBy: [StakePoolsOrderByWithRelationInput!]
   $take: Int
   $skip: Int
-  $withStakePoolStakers: Boolean!
+  $withStakePoolStakers: Boolean = false
   $stakePoolStakersWhere: StakePoolStakersWhereInput
 ) {
   findManyStakePools(
@@ -41,6 +41,10 @@ query StakePools(
       claimableRewards
       instantClaimableRewards
       isOwner
+    }
+    accounts {
+      identity
+      identityVerified
     }
   }
   aggregateStakePools(where: $where) {
