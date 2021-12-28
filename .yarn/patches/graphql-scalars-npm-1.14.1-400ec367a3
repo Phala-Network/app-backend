@@ -1,0 +1,26 @@
+diff --git a/index.js b/index.js
+index f9f5502f83693b618eec9c5420d18f6c1d6a9771..ff67189c6e3a01b943948a975405eb854eec126e 100644
+--- a/index.js
++++ b/index.js
+@@ -1439,7 +1439,7 @@ const GraphQLURL =
+ function patchBigInt() {
+     if (!BigInt.prototype.toJSON) {
+         BigInt.prototype.toJSON = function () {
+-            return Number(this);
++            return String(this);
+         };
+     }
+ }
+diff --git a/index.mjs b/index.mjs
+index 8c0f858cb046b63239a6d7f136b804cd2da3d088..bae8d2843bff4b7be3f29061a2c7f3650b9e8d67 100644
+--- a/index.mjs
++++ b/index.mjs
+@@ -1435,7 +1435,7 @@ const GraphQLURL =
+ function patchBigInt() {
+     if (!BigInt.prototype.toJSON) {
+         BigInt.prototype.toJSON = function () {
+-            return Number(this);
++            return String(this);
+         };
+     }
+ }

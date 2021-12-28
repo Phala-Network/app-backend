@@ -1,6 +1,7 @@
 FROM node:16.13.0
 
 WORKDIR /usr/src/app
+COPY .env.production .env
 COPY prisma ./prisma
 COPY dist ./dist
 COPY .yarnrc.yml .

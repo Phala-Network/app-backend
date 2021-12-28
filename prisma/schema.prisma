@@ -105,10 +105,11 @@ model StakePoolActivities {
   releasingStake     Decimal    @default(0.0) @map("releasing_stake") @db.Decimal
   usedStake          Decimal    @default(0.0) @map("used_stake") @db.Decimal
   remainingStake     Decimal?   @map("remaining_stake") @db.Decimal
+  instantApr         Decimal    @default(0.0) @map("instant_apr") @db.Decimal
   stakersCount       Int        @default(0) @map("stakers_count")
   workersCount       Int        @default(0) @map("workers_count")
   miningWorkersCount Int        @default(0) @map("mining_workers_count")
-  apr                Decimal    @default(0.0) @db.Decimal
+  withdrawalsCount   Int        @default(0) @map("withdrawals_count")
   createdAt          DateTime   @map("created_at") @db.Timestamp(6)
   updatedAt          DateTime   @map("updated_at") @db.Timestamp(6)
   events             Events?    @relation(fields: [eventId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_8205ff9930")
@@ -186,7 +187,10 @@ model StakePoolWithdrawals {
   endEventId                                     BigInt?    @map("end_event_id")
   endBlockNumber                                 BigInt?    @map("end_block_number")
   endTimestamp                                   DateTime?  @map("end_timestamp") @db.Timestamp(6)
+  startTime                                      DateTime   @map("start_time") @db.Timestamp(6)
   shares                                         Decimal    @db.Decimal
+  estimatesEndTime                               DateTime   @default(dbgenerated("'1970-01-01 00:00:00'::timestamp without time zone")) @map("estimates_end_time") @db.Timestamp(6)
+  stake                                          Decimal    @default(0.0) @db.Decimal
   createdAt                                      DateTime   @map("created_at") @db.Timestamp(6)
   updatedAt                                      DateTime   @map("updated_at") @db.Timestamp(6)
   eventsEventsTostakePoolWithdrawalsEndEventId   Events?    @relation("eventsTostake_pool_withdrawals_end_event_id", fields: [endEventId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d22c29d8dd")
@@ -218,10 +222,11 @@ model StakePools {
   releasingStake         Decimal                @default(0.0) @map("releasing_stake") @db.Decimal
   usedStake              Decimal                @default(0.0) @map("used_stake") @db.Decimal
   remainingStake         Decimal?               @map("remaining_stake") @db.Decimal
+  instantApr             Decimal                @default(0.0) @map("instant_apr") @db.Decimal
   stakersCount           Int                    @default(0) @map("stakers_count")
   workersCount           Int                    @default(0) @map("workers_count")
   miningWorkersCount     Int                    @default(0) @map("mining_workers_count")
-  apr                    Decimal                @default(0.0) @db.Decimal
+  withdrawalsCount       Int                    @default(0) @map("withdrawals_count")
   createdAt              DateTime               @map("created_at") @db.Timestamp(6)
   updatedAt              DateTime               @map("updated_at") @db.Timestamp(6)
   accounts               Accounts               @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b6e323a291")

@@ -5,6 +5,8 @@ query StakePools(
   $skip: Int
   $withStakePoolStakers: Boolean = false
   $stakePoolStakersWhere: StakePoolStakersWhereInput
+  $withStakePoolWithdrawals: Boolean = false
+  $stakePoolWithdrawalsWhere: StakePoolWithdrawalsWhereInput
 ) {
   findManyStakePools(
     where: $where
@@ -27,7 +29,7 @@ query StakePools(
     stakersCount
     workersCount
     miningWorkersCount
-    apr
+    instantApr
     stakePoolStakers(where: $stakePoolStakersWhere)
       @include(if: $withStakePoolStakers) {
       address
@@ -46,6 +48,14 @@ query StakePools(
       identity
       identityVerified
     }
+    stakePoolWithdrawals(where: $stakePoolWithdrawalsWhere)
+      @include(if: $withStakePoolWithdrawals) {
+      shares
+      startTime
+      estimatesEndTime
+      stake
+      userAddress
+    }
   }
   aggregateStakePools(where: $where) {
     _count {
@@ -54,7 +64,7 @@ query StakePools(
   }
 }
 
-query AggregateStakePools {
+query TotalStake {
   aggregateStakePools {
     _sum {
       totalStake

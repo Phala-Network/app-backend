@@ -2187,7 +2187,7 @@ __metadata:
     class-validator: ^0.13.2
     graphql: ^15.8.0
     graphql-fields: ^2.0.3
-    graphql-scalars: ^1.14.1
+    graphql-scalars: 1.14.1
     prisma: ~3.7.0
     reflect-metadata: ^0.1.13
     ts-node: ^10.4.0
@@ -3970,7 +3970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-scalars@npm:^1.14.1":
+"graphql-scalars@npm:1.14.1":
   version: 1.14.1
   resolution: "graphql-scalars@npm:1.14.1"
   dependencies:
@@ -3978,6 +3978,17 @@ __metadata:
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: b7bdddc49fbd305d18da47b00f2a6e910d5b4e017cb62b61045e138f308348f5c53a7bba3912d2ae6e7e292971b5195c3a8d197f4eee60da60e7cc32756c8848
+  languageName: node
+  linkType: hard
+
+"graphql-scalars@patch:graphql-scalars@npm:1.14.1#.yarn/patches/graphql-scalars-npm-1.14.1-400ec367a3::locator=app-backend%40workspace%3A.":
+  version: 1.14.1
+  resolution: "graphql-scalars@patch:graphql-scalars@npm%3A1.14.1#.yarn/patches/graphql-scalars-npm-1.14.1-400ec367a3::version=1.14.1&hash=bc62e4&locator=app-backend%40workspace%3A."
+  dependencies:
+    tslib: ~2.3.0
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 837e045253e8620652e43f842b2b5c92238c78c6bcffe4ce93bddfd43f09acb7c4fd61b10fe2ee4f71d60c407a6c67a73bbcd07703ad76d11a0a15967bf509a4
   languageName: node
   linkType: hard
 
