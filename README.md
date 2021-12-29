@@ -10,3 +10,7 @@ cp .env.example .env
 yarn generate
 yarn dev
 ```
+
+## TODO
+
+- Remove codegen

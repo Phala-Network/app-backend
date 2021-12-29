@@ -7,7 +7,7 @@ import {context} from './context'
 const app = async () => {
   const schema = await tq.buildSchema({
     resolvers,
-    emitSchemaFile: true,
+    emitSchemaFile: process.env.NODE_ENV !== 'production',
   })
 
   const server = new ApolloServer({
