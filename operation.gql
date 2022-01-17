@@ -7,6 +7,8 @@ query StakePools(
   $stakePoolStakersWhere: StakePoolStakersWhereInput
   $withStakePoolWithdrawals: Boolean = false
   $stakePoolWithdrawalsWhere: StakePoolWithdrawalsWhereInput
+  $withMiners: Boolean = false
+  $minersWhere: MinersWhereInput
 ) {
   findManyStakePools(
     where: $where
@@ -27,8 +29,7 @@ query StakePools(
     usedStake
     remainingStake
     stakersCount
-    workersCount
-    miningWorkersCount
+    minersCount
     instantApr
     stakePoolStakers(where: $stakePoolStakersWhere)
       @include(if: $withStakePoolStakers) {
@@ -56,6 +57,11 @@ query StakePools(
       stake
       userAddress
     }
+    miners(where: $minersWhere) @include(if: $withMiners) {
+      estimatesReclaimableAt
+      workerPublicKey
+      stakes
+    }
   }
   aggregateStakePools(where: $where) {
     _count {
@@ -68,6 +74,44 @@ query TotalStake {
   aggregateStakePools {
     _sum {
       totalStake
+    }
+  }
+}
+
+query States {
+  findManyStates {
+    integerValue
+    datetimeValue
+  }
+}
+
+query Miners(
+  $where: MinersWhereInput
+  $orderBy: [MinersOrderByWithRelationInput!]
+  $take: Int
+  $skip: Int
+) {
+  findManyMiners(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
+    workerPublicKey
+    pid
+    state
+    v
+    ve
+    pInit
+    pInstant
+    totalReward
+    shares
+    sMin
+    sMax
+    stakes
+    estimatesReclaimableAt
+    stakePools {
+      freeStake
+    }
+  }
+  aggregateMiners(where: $where) {
+    _count {
+      _all
     }
   }
 }
