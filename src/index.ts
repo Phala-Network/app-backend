@@ -14,6 +14,9 @@ const app = async () => {
   const server = new ApolloServer({
     schema,
     context,
+    introspection:
+      process.env.NODE_ENV !== 'production' ||
+      process.env.INTROSPECTION === 'true',
     plugins: [
       process.env.NODE_ENV === 'production' &&
         ApolloServerPluginLandingPageDisabled(),
