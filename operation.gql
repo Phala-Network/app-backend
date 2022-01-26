@@ -115,3 +115,32 @@ query Miners(
     }
   }
 }
+
+query StakePool($where: StakePoolsWhereUniqueInput!) {
+  findUniqueStakePools(where: $where) {
+    pid
+    ownerAddress
+    commission
+    ownerReward
+    cap
+    rewardAcc
+    totalShares
+    totalStake
+    freeStake
+    releasingStake
+    remainingStake
+    instantApr
+    stakersCount
+    withdrawalsCount
+    minersCount
+    accounts {
+      identity
+      identityVerified
+    }
+    stakePoolWithdrawals {
+      userAddress
+      estimatesEndTime
+      stake
+    }
+  }
+}
