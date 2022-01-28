@@ -23,7 +23,7 @@
     "prisma": "~3.7.0",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
-    "typegraphql-prisma": "^0.18.3",
+    "typegraphql-prisma": "0.18.3",
     "typescript": "^4.5.4"
   },
   "main": "dist/index.js",
@@ -37,6 +37,7 @@
     "start": "NODE_ENV=production node dist"
   },
   "resolutions": {
-    "graphql-scalars@1.14.1": "patch:graphql-scalars@npm:1.14.1#.yarn/patches/graphql-scalars-npm-1.14.1-400ec367a3"
+    "graphql-scalars@1.14.1": "patch:graphql-scalars@npm:1.14.1#.yarn/patches/graphql-scalars-npm-1.14.1-400ec367a3",
+    "typegraphql-prisma@0.18.3": "patch:typegraphql-prisma@npm:0.18.3#.yarn/patches/typegraphql-prisma-npm-0.18.3-a29ccbfd84"
   }
 }

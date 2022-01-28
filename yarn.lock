@@ -2192,7 +2192,7 @@ __metadata:
     ts-node: ^10.4.0
     ts-node-dev: ^1.1.8
     type-graphql: ^1.1.1
-    typegraphql-prisma: ^0.18.3
+    typegraphql-prisma: 0.18.3
     typescript: ^4.5.4
   languageName: unknown
   linkType: soft
@@ -7128,7 +7128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typegraphql-prisma@npm:^0.18.3":
+"typegraphql-prisma@npm:0.18.3":
   version: 0.18.3
   resolution: "typegraphql-prisma@npm:0.18.3"
   dependencies:
@@ -7150,6 +7150,31 @@ __metadata:
   bin:
     typegraphql-prisma: lib/generator.js
   checksum: 87991697c166d193436a11af0f5aeb8b794b23c6fcfbb0509273a387960075cd1219f40753e631a8c1490221cf13654e90ba2b08d13c55c6644c9d96ef0d02bf
+  languageName: node
+  linkType: hard
+
+"typegraphql-prisma@patch:typegraphql-prisma@npm:0.18.3#.yarn/patches/typegraphql-prisma-npm-0.18.3-a29ccbfd84::locator=app-backend%40workspace%3A.":
+  version: 0.18.3
+  resolution: "typegraphql-prisma@patch:typegraphql-prisma@npm%3A0.18.3#.yarn/patches/typegraphql-prisma-npm-0.18.3-a29ccbfd84::version=0.18.3&hash=ccfd35&locator=app-backend%40workspace%3A."
+  dependencies:
+    "@prisma/generator-helper": ~3.7.0
+    "@prisma/sdk": ~3.7.0
+    pluralize: ^8.0.0
+    semver: ^7.3.5
+    ts-morph: ^13.0.2
+    tslib: ^2.3.1
+  peerDependencies:
+    "@prisma/client": ~3.7.0
+    "@types/graphql-fields": ^1.3.4
+    "@types/node": "*"
+    graphql-fields: ^2.0.3
+    graphql-scalars: ^1.14.1
+    prisma: ~3.7.0
+    tslib: ^2.3.1
+    type-graphql: ^1.1.1
+  bin:
+    typegraphql-prisma: lib/generator.js
+  checksum: eca3b59a4a40e4b6ad0bd5a3116a84f1d52629e1265d9a8300b164e19a2ce749a957cba18c7385e882ac29d9cdcc441709585dcb8f0c29e7315e4960a29dd62a
   languageName: node
   linkType: hard
 
