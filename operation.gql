@@ -62,6 +62,7 @@ query StakePools(
       workerPublicKey
       stakes
     }
+    withdrawalsCount
   }
   aggregateStakePools(where: $where) {
     _count {
@@ -138,9 +139,12 @@ query StakePool($where: StakePoolsWhereUniqueInput!) {
       identityVerified
     }
     stakePoolWithdrawals {
-      userAddress
+      shares
+      startTime
       estimatesEndTime
       stake
+      userAddress
     }
+    idleMinersCount
   }
 }
