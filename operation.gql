@@ -30,7 +30,7 @@ query StakePools(
     remainingStake
     stakersCount
     minersCount
-    instantApr
+    theoreticalApr
     stakePoolStakers(where: $stakePoolStakersWhere)
       @include(if: $withStakePoolStakers) {
       address
@@ -130,7 +130,7 @@ query StakePool($where: StakePoolsWhereUniqueInput!) {
     freeStake
     releasingStake
     remainingStake
-    instantApr
+    theoreticalApr
     stakersCount
     withdrawalsCount
     minersCount

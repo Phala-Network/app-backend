@@ -12,7 +12,7 @@ datasource db {
 }
 
 model AccountStats {
-  id                          BigInt   @id @default(autoincrement())
+  id                          BigInt   @id @default(dbgenerated("nextval('account_stats_id_seq'::regclass)"))
   accountId                   BigInt?  @map("account_id")
   address                     String   @unique(map: "index_account_stats_on_address") @db.VarChar
   lastUpdatedBlockNumber      BigInt   @map("last_updated_block_number")
@@ -29,7 +29,7 @@ model AccountStats {
 }
 
 model Accounts {
-  id                   BigInt                 @id @default(autoincrement())
+  id                   BigInt                 @id @default(dbgenerated("nextval('accounts_id_seq'::regclass)"))
   address              String                 @unique(map: "index_accounts_on_address") @db.VarChar
   identity             String?                @db.VarChar
   identityVerified     Boolean                @default(false) @map("identity_verified")
@@ -54,7 +54,7 @@ model ArInternalMetadata {
 }
 
 model Events {
-  id               BigInt    @id @default(autoincrement())
+  id               BigInt    @id @default(dbgenerated("nextval('events_id_seq'::regclass)"))
   blockNumber      BigInt    @map("block_number")
   timestamp        DateTime  @db.Timestamp(6)
   tokenomicVersion Int       @map("tokenomic_version")
@@ -84,7 +84,7 @@ model Events {
 }
 
 model MinerActivities {
-  id                     BigInt    @id @default(autoincrement())
+  id                     BigInt    @id @default(dbgenerated("nextval('miner_activities_id_seq'::regclass)"))
   eventId                BigInt?   @map("event_id")
   minerId                BigInt    @map("miner_id")
   type                   String    @map("_type") @db.VarChar
@@ -122,7 +122,7 @@ model MinerActivities {
 }
 
 model MinerStats {
-  id                      BigInt   @id @default(autoincrement())
+  id                      BigInt   @id @default(dbgenerated("nextval('miner_stats_id_seq'::regclass)"))
   minerId                 BigInt?  @map("miner_id")
   address                 String   @unique(map: "index_miner_stats_on_address") @db.VarChar
   lastUpdatedBlockNumber  BigInt   @map("last_updated_block_number")
@@ -136,7 +136,7 @@ model MinerStats {
 }
 
 model Miners {
-  id                                    BigInt             @id @default(autoincrement())
+  id                                    BigInt             @id @default(dbgenerated("nextval('miners_id_seq'::regclass)"))
   address                               String             @unique(map: "index_miners_on_address") @db.VarChar
   workerPublicKey                       String             @map("worker_public_key") @db.VarChar
   pid                                   Int
@@ -182,7 +182,7 @@ model SchemaMigrations {
 }
 
 model StakePoolActivities {
-  id                      BigInt     @id @default(autoincrement())
+  id                      BigInt     @id @default(dbgenerated("nextval('stake_pool_activities_id_seq'::regclass)"))
   eventId                 BigInt?    @map("event_id")
   stakePoolId             BigInt     @map("stake_pool_id")
   type                    String     @map("_type") @db.VarChar
@@ -199,7 +199,7 @@ model StakePoolActivities {
   releasingStake          Decimal    @default(0.0) @map("releasing_stake") @db.Decimal
   usedStake               Decimal    @default(0.0) @map("used_stake") @db.Decimal
   remainingStake          Decimal?   @map("remaining_stake") @db.Decimal
-  instantApr              Decimal    @default(0.0) @map("instant_apr") @db.Decimal
+  theoreticalApr          Decimal    @default(0.0) @map("theoretical_apr") @db.Decimal
   stakersCount            Int        @default(0) @map("stakers_count")
   withdrawalsCount        Int        @default(0) @map("withdrawals_count")
   minersCount             Int        @default(0) @map("miners_count")
@@ -220,7 +220,7 @@ model StakePoolActivities {
 }
 
 model StakePoolStakerActivities {
-  id                     BigInt           @id @default(autoincrement())
+  id                     BigInt           @id @default(dbgenerated("nextval('stake_pool_staker_activities_id_seq'::regclass)"))
   eventId                BigInt?          @map("event_id")
   stakePoolStakerId      BigInt           @map("stake_pool_staker_id")
   type                   String           @map("_type") @db.VarChar
@@ -249,7 +249,7 @@ model StakePoolStakerActivities {
 }
 
 model StakePoolStakers {
-  id                        BigInt                      @id @default(autoincrement())
+  id                        BigInt                      @id @default(dbgenerated("nextval('stake_pool_stakers_id_seq'::regclass)"))
   stakePoolId               BigInt                      @map("stake_pool_id")
   address                   String?                     @db.VarChar
   userId                    BigInt                      @map("user_id")
@@ -278,7 +278,7 @@ model StakePoolStakers {
 }
 
 model StakePoolStats {
-  id                       BigInt   @id @default(autoincrement())
+  id                       BigInt   @id @default(dbgenerated("nextval('stake_pool_stats_id_seq'::regclass)"))
   stakePoolId              BigInt?  @map("stake_pool_id")
   pid                      Int      @unique(map: "index_stake_pool_stats_on_pid")
   lastUpdatedBlockNumber   BigInt   @map("last_updated_block_number")
@@ -295,7 +295,7 @@ model StakePoolStats {
 }
 
 model StakePoolWithdrawals {
-  id               BigInt     @id @default(autoincrement())
+  id               BigInt     @id @default(dbgenerated("nextval('stake_pool_withdrawals_id_seq'::regclass)"))
   stakePoolId      BigInt     @map("stake_pool_id")
   userAddress      String?    @map("user_address") @db.VarChar
   userId           BigInt     @map("user_id")
@@ -322,7 +322,7 @@ model StakePoolWithdrawals {
 }
 
 model StakePools {
-  id                      BigInt                 @id @default(autoincrement())
+  id                      BigInt                 @id @default(dbgenerated("nextval('stake_pools_id_seq'::regclass)"))
   pid                     Int                    @unique(map: "index_stake_pools_on_pid")
   ownerAddress            String                 @map("owner_address") @db.VarChar
   ownerId                 BigInt                 @map("owner_id")
@@ -338,7 +338,7 @@ model StakePools {
   releasingStake          Decimal                @default(0.0) @map("releasing_stake") @db.Decimal
   usedStake               Decimal                @default(0.0) @map("used_stake") @db.Decimal
   remainingStake          Decimal?               @map("remaining_stake") @db.Decimal
-  instantApr              Decimal                @default(0.0) @map("instant_apr") @db.Decimal
+  theoreticalApr          Decimal                @default(0.0) @map("theoretical_apr") @db.Decimal
   stakersCount            Int                    @default(0) @map("stakers_count")
   withdrawalsCount        Int                    @default(0) @map("withdrawals_count")
   minersCount             Int                    @default(0) @map("miners_count")
@@ -362,7 +362,7 @@ model StakePools {
 }
 
 model States {
-  id            BigInt    @id @default(autoincrement())
+  id            BigInt    @id @default(dbgenerated("nextval('states_id_seq'::regclass)"))
   key           String?   @db.VarChar
   visible       Boolean?
   decimalValue  Decimal?  @map("decimal_value") @db.Decimal
@@ -377,7 +377,7 @@ model States {
 }
 
 model WorkerActivities {
-  id                         BigInt      @id @default(autoincrement())
+  id                         BigInt      @id @default(dbgenerated("nextval('worker_activities_id_seq'::regclass)"))
   eventId                    BigInt?     @map("event_id")
   workerId                   BigInt      @map("worker_id")
   type                       String      @map("_type") @db.VarChar
@@ -417,7 +417,7 @@ model WorkerActivities {
 }
 
 model Workers {
-  id                                  BigInt             @id @default(autoincrement())
+  id                                  BigInt             @id @default(dbgenerated("nextval('workers_id_seq'::regclass)"))
   publicKey                           String             @unique(map: "index_workers_on_public_key") @map("public_key") @db.VarChar
   lastUpdatedBlockNumber              BigInt             @map("last_updated_block_number")
   lastUpdatedTimestamp                DateTime           @map("last_updated_timestamp") @db.Timestamp(6)

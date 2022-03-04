@@ -1,5 +1,5 @@
 diff --git a/lib/generator/config.js b/lib/generator/config.js
-index 6a0cc7b4d09b01bf4f3717dd12c0daf01ced0b64..d39c20bd164af881df4ae034b904d35417b7bf04 100644
+index 985f338be23aa3526e4ab2f131ae9e95585daafa..f12073e5d500a363a381bf917af26458a9262c7f 100644
 --- a/lib/generator/config.js
 +++ b/lib/generator/config.js
 @@ -10,13 +10,13 @@ exports.supportedQueryActions = [
