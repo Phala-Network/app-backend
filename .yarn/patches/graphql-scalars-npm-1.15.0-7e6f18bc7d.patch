@@ -1,8 +1,8 @@
 diff --git a/index.js b/index.js
-index f9f5502f83693b618eec9c5420d18f6c1d6a9771..ff67189c6e3a01b943948a975405eb854eec126e 100644
+index 0e8668d62c65184423e0b89269090d5cd3ebdbcc..f78d47b50f7059f6024435abc396d4da3198e0f9 100644
 --- a/index.js
 +++ b/index.js
-@@ -1439,7 +1439,7 @@ const GraphQLURL =
+@@ -1449,7 +1449,7 @@ const GraphQLURL =
  function patchBigInt() {
      if (!BigInt.prototype.toJSON) {
          BigInt.prototype.toJSON = function () {
@@ -12,10 +12,10 @@ index f9f5502f83693b618eec9c5420d18f6c1d6a9771..ff67189c6e3a01b943948a975405eb85
      }
  }
 diff --git a/index.mjs b/index.mjs
-index 8c0f858cb046b63239a6d7f136b804cd2da3d088..bae8d2843bff4b7be3f29061a2c7f3650b9e8d67 100644
+index f874ea02c1392eac0bff978e8a1daf253f37dd31..472ead89db463779da98b0ca4f680ece5d7792d6 100644
 --- a/index.mjs
 +++ b/index.mjs
-@@ -1435,7 +1435,7 @@ const GraphQLURL =
+@@ -1445,7 +1445,7 @@ const GraphQLURL =
  function patchBigInt() {
      if (!BigInt.prototype.toJSON) {
          BigInt.prototype.toJSON = function () {

@@ -30,19 +30,19 @@ query StakePools(
     remainingStake
     stakersCount
     minersCount
-    instantApr
+    theoreticalApr
     stakePoolStakers(where: $stakePoolStakersWhere)
       @include(if: $withStakePoolStakers) {
       address
       shares
       locked
-      availableRewards
+      availableReward
       rewardDebt
       stake
-      pendingRewards
-      stakeRewards
-      claimableRewards
-      instantClaimableRewards
+      pendingReward
+      stakeReward
+      claimableReward
+      instantClaimableReward
       isOwner
     }
     accounts {
@@ -62,6 +62,7 @@ query StakePools(
       workerPublicKey
       stakes
     }
+    withdrawalsCount
   }
   aggregateStakePools(where: $where) {
     _count {
@@ -129,7 +130,7 @@ query StakePool($where: StakePoolsWhereUniqueInput!) {
     freeStake
     releasingStake
     remainingStake
-    instantApr
+    theoreticalApr
     stakersCount
     withdrawalsCount
     minersCount
@@ -138,9 +139,12 @@ query StakePool($where: StakePoolsWhereUniqueInput!) {
       identityVerified
     }
     stakePoolWithdrawals {
-      userAddress
+      shares
+      startTime
       estimatesEndTime
       stake
+      userAddress
     }
+    idleMinersCount
   }
 }
