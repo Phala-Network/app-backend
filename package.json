@@ -1,34 +1,7 @@
 {
   "name": "app-backend",
   "version": "1.0.0",
-  "dependencies": {
-    "@prisma/client": "~3.10.0",
-    "apollo-server": "^3.6.3",
-    "class-validator": "^0.13.2",
-    "graphql": "^15.8.0",
-    "graphql-fields": "^2.0.3",
-    "graphql-scalars": "1.15.0",
-    "reflect-metadata": "^0.1.13",
-    "tslib": "^2.3.1",
-    "type-graphql": "^1.1.1"
-  },
-  "devDependencies": {
-    "@graphql-codegen/add": "^3.1.1",
-    "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/typescript": "2.4.5",
-    "@graphql-codegen/typescript-operations": "2.3.2",
-    "@graphql-codegen/typescript-react-query": "^3.5.5",
-    "@tsconfig/node16": "^1.0.2",
-    "@types/graphql-fields": "^1.3.4",
-    "@types/node": "^16.11.26",
-    "prisma": "~3.10.0",
-    "ts-node": "^10.6.0",
-    "ts-node-dev": "^1.1.8",
-    "typegraphql-prisma": "0.19.1",
-    "typescript": "^4.6.2"
-  },
   "main": "dist/index.js",
-  "packageManager": "yarn@3.2.0",
   "scripts": {
     "build": "yarn clean && tsc",
     "clean": "rm -rf dist",
@@ -38,7 +11,34 @@
     "start": "NODE_ENV=production node dist"
   },
   "resolutions": {
-    "typegraphql-prisma@0.19.1": "patch:typegraphql-prisma@npm:0.19.1#.yarn/patches/typegraphql-prisma-npm-0.19.1-e260acb140.patch",
-    "graphql-scalars@1.15.0": "patch:graphql-scalars@npm:1.15.0#.yarn/patches/graphql-scalars-npm-1.15.0-7e6f18bc7d.patch"
-  }
+    "typegraphql-prisma@0.20.1": "patch:typegraphql-prisma@npm:0.20.1#.yarn/patches/typegraphql-prisma-npm-0.20.1-73e81cfd94.patch",
+    "graphql-scalars@1.17.0": "patch:graphql-scalars@npm:1.17.0#.yarn/patches/graphql-scalars-npm-1.17.0-e97beeb844.patch"
+  },
+  "dependencies": {
+    "@prisma/client": "~3.12.0",
+    "apollo-server": "^3.6.7",
+    "class-validator": "^0.13.2",
+    "graphql": "^15.8.0",
+    "graphql-fields": "^2.0.3",
+    "graphql-scalars": "1.17.0",
+    "reflect-metadata": "^0.1.13",
+    "tslib": "^2.3.1",
+    "type-graphql": "^1.1.1"
+  },
+  "devDependencies": {
+    "@graphql-codegen/add": "^3.1.1",
+    "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/typescript": "2.4.8",
+    "@graphql-codegen/typescript-operations": "2.3.5",
+    "@graphql-codegen/typescript-react-query": "^3.5.9",
+    "@tsconfig/node16": "^1.0.2",
+    "@types/graphql-fields": "^1.3.4",
+    "@types/node": "^16.11.27",
+    "prisma": "~3.12.0",
+    "ts-node": "^10.7.0",
+    "ts-node-dev": "^1.1.8",
+    "typegraphql-prisma": "0.20.1",
+    "typescript": "^4.6.3"
+  },
+  "packageManager": "yarn@3.2.0"
 }

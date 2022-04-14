@@ -1,0 +1,36 @@
+diff --git a/index.js b/index.js
+index 88fc32357c774c2f6dc9afecc420559e988fa53e..586b5135992e16880e9f8782d7bb731354ee05fb 100644
+--- a/index.js
++++ b/index.js
+@@ -1524,10 +1524,10 @@ const GraphQLBigIntConfig = {
+             get(_, prop) {
+                 if (prop === 'toJSON') {
+                     return function toJSON() {
+-                        if (num > Number.MAX_SAFE_INTEGER) {
++                        // if (num > Number.MAX_SAFE_INTEGER) {
+                             return num.toString();
+-                        }
+-                        return Number(num);
++                        // }
++                        // return Number(num);
+                     };
+                 }
+                 if (prop === Symbol.toStringTag) {
+diff --git a/index.mjs b/index.mjs
+index cb1a6b1f16991459d7896721d980faa0f370a4d0..bf70c4efddb1564588d5983183b4237f47bf8d1f 100644
+--- a/index.mjs
++++ b/index.mjs
+@@ -1520,10 +1520,10 @@ const GraphQLBigIntConfig = {
+             get(_, prop) {
+                 if (prop === 'toJSON') {
+                     return function toJSON() {
+-                        if (num > Number.MAX_SAFE_INTEGER) {
++                        // if (num > Number.MAX_SAFE_INTEGER) {
+                             return num.toString();
+-                        }
+-                        return Number(num);
++                        // }
++                        // return Number(num);
+                     };
+                 }
+                 if (prop === Symbol.toStringTag) {
