@@ -289,17 +289,30 @@ model StakePoolStakers {
 }
 
 model StakePoolStats {
-  id                       BigInt   @id @default(dbgenerated("nextval('stake_pool_stats_id_seq'::regclass)"))
-  stakePoolId              BigInt?  @map("stake_pool_id")
-  pid                      Int      @unique(map: "index_stake_pool_stats_on_pid")
-  lastUpdatedBlockNumber   BigInt   @map("last_updated_block_number")
-  lastUpdatedTimestamp     DateTime @map("last_updated_timestamp") @db.Timestamp(6)
-  accumulatedReward        Decimal  @default(0.0) @map("accumulated_reward") @db.Decimal
-  recentReward             Decimal  @default(0.0) @map("recent_reward") @db.Decimal
-  recentStartedBlockNumber BigInt   @map("recent_started_block_number")
-  recentStartedTimestamp   DateTime @map("recent_started_timestamp") @db.Timestamp(6)
-  createdAt                DateTime @map("created_at") @db.Timestamp(6)
-  updatedAt                DateTime @map("updated_at") @db.Timestamp(6)
+  id                                   BigInt     @id @default(dbgenerated("nextval('stake_pool_stats_id_seq'::regclass)"))
+  stakePoolId                          BigInt     @map("stake_pool_id")
+  pid                                  Int        @unique(map: "index_stake_pool_stats_on_pid")
+  lastUpdatedBlockNumber               BigInt     @map("last_updated_block_number")
+  lastUpdatedTimestamp                 DateTime   @map("last_updated_timestamp") @db.Timestamp(6)
+  accumulatedReward                    Decimal    @default(0.0) @map("accumulated_reward") @db.Decimal
+  recentReward                         Decimal    @default(0.0) @map("recent_reward") @db.Decimal
+  recentStartedBlockNumber             BigInt     @map("recent_started_block_number")
+  recentStartedTimestamp               DateTime   @map("recent_started_timestamp") @db.Timestamp(6)
+  createdAt                            DateTime   @map("created_at") @db.Timestamp(6)
+  updatedAt                            DateTime   @map("updated_at") @db.Timestamp(6)
+  commission                           Decimal?   @db.Decimal
+  commissionUpdatedBlockNumber         BigInt?    @map("commission_updated_block_number")
+  commissionUpdatedAt                  DateTime?  @map("commission_updated_at") @db.Timestamp(6)
+  previousCommission                   Decimal?   @map("previous_commission") @db.Decimal
+  previousCommissionUpdatedBlockNumber BigInt?    @map("previous_commission_updated_block_number")
+  previousCommissionUpdatedAt          DateTime?  @map("previous_commission_updated_at") @db.Timestamp(6)
+  highestCommission                    Decimal?   @map("highest_commission") @db.Decimal
+  highestCommissionUpdatedBlockNumber  BigInt?    @map("highest_commission_updated_block_number")
+  highestCommissionUpdatedAt           DateTime?  @map("highest_commission_updated_at") @db.Timestamp(6)
+  lowestCommission                     Decimal?   @map("lowest_commission") @db.Decimal
+  lowestCommissionUpdatedBlockNumber   BigInt?    @map("lowest_commission_updated_block_number")
+  lowestCommissionUpdatedAt            DateTime?  @map("lowest_commission_updated_at") @db.Timestamp(6)
+  stakePools                           StakePools @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([stakePoolId], map: "index_stake_pool_stats_on_stake_pool_id")
   @@map("stake_pool_stats")
@@ -367,6 +380,7 @@ model StakePools {
   stakePoolWithdrawals              StakePoolWithdrawals[]
   workerActivities                  WorkerActivities[]
   workers                           Workers[]
+  stakePoolStats                    StakePoolStats[]
 
   @@index([ownerAddress], map: "index_stake_pools_on_owner_address")
   @@index([ownerId], map: "index_stake_pools_on_owner_id")
