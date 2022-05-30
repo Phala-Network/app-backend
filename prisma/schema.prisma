@@ -373,7 +373,7 @@ model StakePools {
   coolingDownMinersCount            Int                    @default(0) @map("cooling_down_miners_count")
   createdAt                         DateTime               @map("created_at") @db.Timestamp(6)
   updatedAt                         DateTime               @map("updated_at") @db.Timestamp(6)
-  availableStake                    Decimal                @default(0.0) @map("available_stake") @db.Decimal
+  availableStake                    Decimal?               @map("available_stake") @db.Decimal
   withdrawingStake                  Decimal                @default(0.0) @map("withdrawing_stake") @db.Decimal
   accounts                          Accounts               @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b6e323a291")
   miners                            Miners[]
