@@ -230,6 +230,18 @@ model StakePoolActivities {
   @@map("stake_pool_activities")
 }
 
+model StakePoolAllowedStakers {
+  id          BigInt     @id @default(dbgenerated("nextval('stake_pool_allowed_stakers_id_seq'::regclass)"))
+  stakePoolId BigInt     @map("stake_pool_id")
+  userAddress String     @map("user_address") @db.VarChar
+  createdAt   DateTime   @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime   @map("updated_at") @db.Timestamp(6)
+  stakePools  StakePools @relation(fields: [stakePoolId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9ea65e5fff")
+
+  @@index([stakePoolId], map: "index_stake_pool_allowed_stakers_on_stake_pool_id")
+  @@map("stake_pool_allowed_stakers")
+}
+
 model StakePoolStakerActivities {
   id                     BigInt           @id @default(dbgenerated("nextval('stake_pool_staker_activities_id_seq'::regclass)"))
   eventId                BigInt?          @map("event_id")
@@ -346,38 +358,39 @@ model StakePoolWithdrawals {
 }
 
 model StakePools {
-  id                                BigInt                 @id @default(dbgenerated("nextval('stake_pools_id_seq'::regclass)"))
-  pid                               Int                    @unique(map: "index_stake_pools_on_pid")
-  ownerAddress                      String                 @map("owner_address") @db.VarChar
-  ownerId                           BigInt                 @map("owner_id")
-  lastUpdatedBlockNumber            BigInt                 @default(0) @map("last_updated_block_number")
-  lastUpdatedTimestamp              DateTime               @map("last_updated_timestamp") @db.Timestamp(6)
-  commission                        Decimal                @default(0.0) @db.Decimal
-  ownerReward                       Decimal                @default(0.0) @map("owner_reward") @db.Decimal
-  cap                               Decimal?               @db.Decimal
-  rewardAcc                         Decimal                @default(0.0) @map("reward_acc") @db.Decimal
-  totalShares                       Decimal                @default(0.0) @map("total_shares") @db.Decimal
-  totalStake                        Decimal                @default(0.0) @map("total_stake") @db.Decimal
-  freeStake                         Decimal                @default(0.0) @map("free_stake") @db.Decimal
-  releasingStake                    Decimal                @default(0.0) @map("releasing_stake") @db.Decimal
-  averageBlockTimeSinceLastActivity Float                  @default(0.0) @map("average_block_time_since_last_activity")
-  usedStake                         Decimal                @default(0.0) @map("used_stake") @db.Decimal
-  remainingStake                    Decimal?               @map("remaining_stake") @db.Decimal
-  theoreticalApr                    Decimal                @default(0.0) @map("theoretical_apr") @db.Decimal
-  stakersCount                      Int                    @default(0) @map("stakers_count")
-  withdrawalsCount                  Int                    @default(0) @map("withdrawals_count")
-  minersCount                       Int                    @default(0) @map("miners_count")
-  readyMinersCount                  Int                    @default(0) @map("ready_miners_count")
-  idleMinersCount                   Int                    @default(0) @map("idle_miners_count")
-  unresponsiveMinersCount           Int                    @default(0) @map("unresponsive_miners_count")
-  coolingDownMinersCount            Int                    @default(0) @map("cooling_down_miners_count")
-  createdAt                         DateTime               @map("created_at") @db.Timestamp(6)
-  updatedAt                         DateTime               @map("updated_at") @db.Timestamp(6)
-  availableStake                    Decimal?               @map("available_stake") @db.Decimal
-  withdrawingStake                  Decimal                @default(0.0) @map("withdrawing_stake") @db.Decimal
-  accounts                          Accounts               @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b6e323a291")
+  id                                BigInt                    @id @default(dbgenerated("nextval('stake_pools_id_seq'::regclass)"))
+  pid                               Int                       @unique(map: "index_stake_pools_on_pid")
+  ownerAddress                      String                    @map("owner_address") @db.VarChar
+  ownerId                           BigInt                    @map("owner_id")
+  lastUpdatedBlockNumber            BigInt                    @default(0) @map("last_updated_block_number")
+  lastUpdatedTimestamp              DateTime                  @map("last_updated_timestamp") @db.Timestamp(6)
+  commission                        Decimal                   @default(0.0) @db.Decimal
+  ownerReward                       Decimal                   @default(0.0) @map("owner_reward") @db.Decimal
+  cap                               Decimal?                  @db.Decimal
+  rewardAcc                         Decimal                   @default(0.0) @map("reward_acc") @db.Decimal
+  totalShares                       Decimal                   @default(0.0) @map("total_shares") @db.Decimal
+  totalStake                        Decimal                   @default(0.0) @map("total_stake") @db.Decimal
+  freeStake                         Decimal                   @default(0.0) @map("free_stake") @db.Decimal
+  releasingStake                    Decimal                   @default(0.0) @map("releasing_stake") @db.Decimal
+  averageBlockTimeSinceLastActivity Float                     @default(0.0) @map("average_block_time_since_last_activity")
+  usedStake                         Decimal                   @default(0.0) @map("used_stake") @db.Decimal
+  remainingStake                    Decimal?                  @map("remaining_stake") @db.Decimal
+  theoreticalApr                    Decimal                   @default(0.0) @map("theoretical_apr") @db.Decimal
+  stakersCount                      Int                       @default(0) @map("stakers_count")
+  withdrawalsCount                  Int                       @default(0) @map("withdrawals_count")
+  minersCount                       Int                       @default(0) @map("miners_count")
+  readyMinersCount                  Int                       @default(0) @map("ready_miners_count")
+  idleMinersCount                   Int                       @default(0) @map("idle_miners_count")
+  unresponsiveMinersCount           Int                       @default(0) @map("unresponsive_miners_count")
+  coolingDownMinersCount            Int                       @default(0) @map("cooling_down_miners_count")
+  createdAt                         DateTime                  @map("created_at") @db.Timestamp(6)
+  updatedAt                         DateTime                  @map("updated_at") @db.Timestamp(6)
+  availableStake                    Decimal?                  @map("available_stake") @db.Decimal
+  withdrawingStake                  Decimal                   @default(0.0) @map("withdrawing_stake") @db.Decimal
+  accounts                          Accounts                  @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b6e323a291")
   miners                            Miners[]
   stakePoolActivities               StakePoolActivities[]
+  stakePoolAllowedStakers           StakePoolAllowedStakers[]
   stakePoolStakers                  StakePoolStakers[]
   stakePoolStats                    StakePoolStats[]
   stakePoolWithdrawals              StakePoolWithdrawals[]
