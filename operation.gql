@@ -69,6 +69,9 @@ query StakePools(
       previousCommission
     }
     availableStake
+    stakePoolAllowedStakers {
+      userAddress
+    }
   }
   aggregateStakePools(where: $where) {
     _count {
@@ -158,5 +161,8 @@ query StakePool($where: StakePoolsWhereUniqueInput!) {
     }
     idleMinersCount
     availableStake
+    stakePoolAllowedStakers {
+      userAddress
+    }
   }
 }
